@@ -1,0 +1,28 @@
+# data (large media, not versioned) — see README for provenance
+/data/
+
+# model weights and configs — re-fetch with scripts/fetch_aubirds.py
+/models/
+
+# run outputs and sample results
+/outputs/
+/assets/
+
+# papers
+/references/
+
+# python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.env
+
+# editors
+.vscode/
+.idea/
+
+# macos
+.DS_Store
