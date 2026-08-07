@@ -2,93 +2,47 @@
 
 Detecting and counting loons in top-down drone footage.
 
-This repository currently holds a **baseline evaluation**, not a working loon
-counter. It runs the pretrained aerial-bird detector from Akçay et al. 2020 over
-loon imagery to establish whether an off-the-shelf model is good enough.
+## Status
 
-**It is not.** See [Baseline result](#baseline-result).
+This is a **baseline evaluation, not a working loon counter.** It runs the
+pretrained aerial-bird detector from
+[Akçay et al. 2020](https://doi.org/10.3390/ani10071207)
+([weights](https://github.com/melihoz/AUBIRDSTEST)) over loon imagery.
 
-## Baseline result
+The model doesn't work for this task. It finds loons, but fragments a single
+bird into ~5–6 boxes and fires on algae and sun glint — it was trained on
+distant flocks and resizes every input to fit 600×600. Threshold tuning doesn't
+fix it; raising the score suppresses real birds first.
 
-The detector is a Faster R-CNN (Inception-ResNet-v2) trained on aerial imagery of
-distant waterbird flocks, published with
-[Akçay et al. 2020, *Animals* 10:1207](https://doi.org/10.3390/ani10071207)
-([weights](https://github.com/melihoz/AUBIRDSTEST)).
-
-On its own test tiles it behaves as published — 145 boxes across 25 tiles, in line
-with the paper.
-
-On loon imagery, recall is fine but **counts are badly inflated**:
-
-- A single close-up loon fragments into ~5 boxes.
-- A single loon in the drone footage fragments into ~6 boxes.
-- False positives fire on algae mats and sun glint.
-
-So the counts it reports — 1–6 "birds" per drone frame, and up to 26 on a single
-660×495 loon still — should be read as box counts, not bird counts.
-
-The cause looks architectural rather than tunable. `pipeline.config` resizes every
-input to fit within 600×600 at stride 16, and the model learned distant flocks —
-a loon that fills a large fraction of the frame has no matching scale in training.
-Raising the score threshold suppresses real birds before it suppresses the
-duplicate boxes.
-
-**Conclusion:** these weights are a dead end for this task. The next step is a
-modern detector (YOLOv11 / RT-DETR) with tiled inference, trained on annotated
-loon data. This baseline is kept for reference and so the negative result is
-reproducible.
+So the numbers it reports are **box counts, not bird counts.** The code is kept
+so the negative result stays reproducible. Next step: a modern detector
+(YOLOv11 / RT-DETR) with tiled inference, trained on annotated loon data.
 
 ## Setup
 
-Requires **Python 3.11** (TensorFlow 2.21 constrains this) and `ffmpeg` on PATH
-for frame extraction.
+Needs **Python 3.11** (TensorFlow 2.21) and `ffmpeg` on PATH.
 
 ```bash
 python3.11 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 
-scripts/fetch_aubirds.py          # downloads the 52 MB detector into models/aubirds/
+scripts/fetch_aubirds.py    # downloads the 52 MB detector into models/aubirds/
 ```
-
-Model weights are not vendored here — the fetch script pulls them from the
-authors' repository.
 
 ## Usage
 
-Extract frames from drone footage (default one frame every 3 s):
-
 ```bash
-scripts/extract_frames.py 3       # data/raw/drone-footage.mp4 -> data/frames/
+scripts/extract_frames.py 3                              # video -> data/frames/
+python src/count_birds.py data/frames --out outputs/     # detect + count
+python src/stitch_tiles.py outputs/ mosaic.jpg           # reassemble tiles
 ```
 
-Count birds. Images larger than one tile are split into 1024×600 tiles,
-zero-padded, and scored at 0.8 — the geometry and threshold from the original
-scripts:
+`count_birds.py` splits images into 1024×600 tiles and scores at 0.8, then
+writes annotated `*_det.jpg` files and a `counts.csv`. Flags: `-t/--thresh`,
+`--whole` (no tiling), `--rgb`, `--limit`.
 
-```bash
-python src/count_birds.py data/frames --rgb --out outputs/frames
-python src/count_birds.py data/raw/images -t 0.9 --out outputs/images
-python src/count_birds.py path/to/one.jpg --whole      # no tiling
-```
-
-Writes annotated `*_det.jpg` files plus a `counts.csv` to `--out`.
-
-| flag | meaning |
-| --- | --- |
-| `-t`, `--thresh` | score threshold (default 0.8) |
-| `--whole` | score the full image at once instead of tiling |
-| `--rgb` | feed RGB; the original script fed BGR via OpenCV |
-| `--limit` | process only the first N images |
-
-Reassemble a tiled set (filenames ending `<row><col>`) into a mosaic:
-
-```bash
-python src/stitch_tiles.py outputs/aubirds_test mosaic.jpg --suffix _det --scale 0.5
-```
-
-Rough CPU timings: ~0.65 s per 1024×600 tile, ~4.8 s per 1080×1920 drone frame
-(8 tiles).
+Note: `extract_frames.py` deletes existing `data/frames/frame_*.jpg` first.
 
 ## Layout
 
@@ -96,32 +50,10 @@ Rough CPU timings: ~0.65 s per 1024×600 tile, ~4.8 s per 1080×1920 drone frame
 src/count_birds.py     tiled inference + annotation + counts.csv
 src/stitch_tiles.py    reassemble tiles into a mosaic
 scripts/               fetch weights, extract frames
-assets/                sample results — gitignored
-data/                  inputs — gitignored
-models/                fetched weights — gitignored
-outputs/               run results — gitignored
-references/            papers — gitignored
+data/ models/ outputs/ assets/ references/    all gitignored
 ```
 
-`src/count_birds.py` reimplements `Object_detection_autest.py` and
-`tools/splitter.py` from AUBIRDSTEST without the TF1 API or hardcoded Windows
-paths; `src/stitch_tiles.py` replaces their `tools/stitcher.py`.
-
-## Data
-
-`data/` is gitignored, so a fresh clone has no inputs. What the results above
-were produced from:
-
-| path | contents | source |
-| --- | --- | --- |
-| `data/raw/drone-footage.mp4` | 1080×1920, 37 s, top-down | own footage |
-| `data/raw/aubirds_test/` | 25 × 1024×600 tiles | [AUBIRDSTEST](https://github.com/melihoz/AUBIRDSTEST) test set |
-| `data/raw/loon-flying/` | loon stills | stock imagery |
-| `data/raw/images/` | ~26 loon photos | own photos + Unsplash (photographer credited in filename) |
-| `data/frames/` | 12 frames | generated by `scripts/extract_frames.py` |
-
-Note that `scripts/extract_frames.py` deletes existing `data/frames/frame_*.jpg`
-before writing.
+A fresh clone has no inputs or weights — the repo is code and docs only.
 
 ## Citation
 
