@@ -44,12 +44,26 @@ writes annotated `*_det.jpg` files and a `counts.csv`. Flags: `-t/--thresh`,
 
 Note: `extract_frames.py` deletes existing `data/frames/frame_*.jpg` first.
 
+### Screening training data
+
+```bash
+scripts/check_images.py data/raw/images --csv outputs/qc.csv
+```
+
+Prints two lists — images unfit for training (unreadable, too small, out of
+focus, badly exposed, featureless) and duplicate groups (identical bytes, plus
+near-duplicates found by perceptual hash) — and changes nothing on disk.
+Focus and contrast are scored on the sharpest region rather than the whole
+frame, so a small sharp bird on flat water isn't rejected as blurry. Thresholds
+are all flags; `--csv` dumps the raw metrics so they can be calibrated per
+dataset.
+
 ## Layout
 
 ```
 src/count_birds.py     tiled inference + annotation + counts.csv
 src/stitch_tiles.py    reassemble tiles into a mosaic
-scripts/               fetch weights, extract frames
+scripts/               fetch weights, extract frames, screen training images
 data/ models/ outputs/ assets/ references/    all gitignored
 ```
 
