@@ -1,15 +1,11 @@
-# data (large media, not versioned) — see README for provenance
-/data/
+# data/, models/, outputs/, and references/ are versioned — the clone ships with
+# imagery, weights, and papers. Only these stay out:
 
-# model weights and configs — re-fetch with scripts/fetch_aubirds.py
-/models/
-
-# run outputs and sample results
-/outputs/
+# sample results duplicated from outputs/
 /assets/
 
-# papers
-/references/
+# training checkpoints — config, metrics, and notes under runs/ stay versioned
+/runs/*/weights/
 
 # python
 .venv/
@@ -20,9 +16,10 @@ __pycache__/
 .ipynb_checkpoints/
 .env
 
-# editors
+# editors / agent config
 .vscode/
 .idea/
+CLAUDE.md
 
 # macos
 .DS_Store
