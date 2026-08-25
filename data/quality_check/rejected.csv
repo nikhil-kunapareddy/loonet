@@ -1,0 +1,3 @@
+image,width,height,focus,contrast,brightness,dark_frac,blown_frac,reasons
+dji_20260822_143837_0139.jpg,349,673,613.718,206.0,132.695,0.007,0.0,too small (349x673)
+nikon_20150708_142417_0006.jpg,4288,2848,30.652,210.0,129.656,0.001,0.0,out of focus (focus 31 < 150)
