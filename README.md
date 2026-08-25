@@ -2,12 +2,6 @@
 
 Training an object detector to find and count loons in top-down drone footage.
 
-Each model gets a version under `runs/`, evaluated on the same held-out split, so
-runs stay comparable. **v0** is the pretrained Faster R-CNN from Akçay et al.
-2020 — ruled out: it splits one bird into 5–6 boxes and fires on algae and sun
-glint, having been trained on distant flocks at 600×600. **v1** (YOLOv11, tiled)
-is pending annotation.
-
 ## Layout
 
 ```
