@@ -70,3 +70,25 @@ python src/stitch_tiles.py outputs/ mosaic.jpg          # reassemble tiles
 counts** — v0 over-splits, so don't quote them as counts.
 
 MIT — see [LICENSE](LICENSE).
+
+## Frontend: run locally
+
+1. Open a terminal in the frontend folder:
+
+   ```bash
+   cd Loonet/loonet
+   ```
+
+2. Install the frontend dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+4. Open the local URL printed in the terminal, usually `http://localhost:5173`.
