@@ -1,0 +1,10 @@
+# iNaturalist sound ids pruned by hand after reviewing outputs/looncall_autolabel/.
+# fetch_looncall.py never fetches these again; autolabel_looncall.py skips them.
+
+144172      # loon: broadband wind/water noise over every window, calls not legible
+1130073     # loon: only window is empty apart from one click
+1064598     # loon: clicks only, no call visible
+332336      # loon: one noisy window, call not legible
+461374      # loon: window is empty
+486561      # loon: three windows, all near-silent
+89127       # loon: faint low smear, not identifiable
