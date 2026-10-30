@@ -1,0 +1,11 @@
+# looncall (audio) deps. Kept apart from requirements-train.txt: BirdNET runs on
+# ai-edge-litert here, and nothing in this set needs torch.
+#   uv venv ~/.venvs/loonet-audio --python 3.11
+#   uv pip install --python ~/.venvs/loonet-audio/bin/python -r requirements-audio.txt
+# Also needs ffmpeg on PATH (scripts/fetch_looncall.py decodes with it).
+ai-edge-litert==2.3.0
+birdnet==1.3.1
+ipykernel==7.4.0
+matplotlib==3.11.2
+pyyaml==6.0.3
+scikit-learn==1.9.1

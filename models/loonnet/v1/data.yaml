@@ -1,0 +1,5 @@
+path: /Users/nikhilkunapareddy/Documents/loonet/data/annotated/loonnet_v1
+train: train.txt
+val: val.txt
+names:
+  0: common loon

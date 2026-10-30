@@ -1,0 +1,55 @@
+{
+  "threshold": 0.5,
+  "C": 0.001,
+  "n_train": 299,
+  "n_val": 65,
+  "BirdNET 2.4 as is": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "average_precision": 1.0
+  },
+  "looncall v1": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "average_precision": 1.0
+  },
+  "drone_noise": [
+    {
+      "snr_db": "clean",
+      "birdnet_recall": 1.0,
+      "birdnet_false_alarm": 0.0,
+      "looncall_recall": 1.0,
+      "looncall_false_alarm": 0.0
+    },
+    {
+      "snr_db": 10,
+      "birdnet_recall": 0.75,
+      "birdnet_false_alarm": 0.0,
+      "looncall_recall": 0.8571428571428571,
+      "looncall_false_alarm": 0.0
+    },
+    {
+      "snr_db": 5,
+      "birdnet_recall": 0.5357142857142857,
+      "birdnet_false_alarm": 0.0,
+      "looncall_recall": 0.6785714285714286,
+      "looncall_false_alarm": 0.0
+    },
+    {
+      "snr_db": 0,
+      "birdnet_recall": 0.35714285714285715,
+      "birdnet_false_alarm": 0.0,
+      "looncall_recall": 0.4642857142857143,
+      "looncall_false_alarm": 0.0
+    },
+    {
+      "snr_db": -5,
+      "birdnet_recall": 0.07142857142857142,
+      "birdnet_false_alarm": 0.0,
+      "looncall_recall": 0.14285714285714285,
+      "looncall_false_alarm": 0.0
+    }
+  ]
+}
