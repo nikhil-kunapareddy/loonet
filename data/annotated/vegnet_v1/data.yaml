@@ -1,0 +1,8 @@
+path: /Users/nikhilkunapareddy/Documents/loonet/data/annotated/vegnet_v1
+train: train.txt
+val: val.txt
+names:
+  0: purple loosestrife
+  1: common reed
+  2: water chestnut
+  3: yellow flag iris

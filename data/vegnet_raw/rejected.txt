@@ -1,0 +1,81 @@
+# iNaturalist photo ids pruned by hand after reviewing outputs/vegnet_autolabel/.
+# fetch_vegnet.py never fetches these again; autolabel_vegnet.py skips them.
+
+# loosestrife: wrong plant boxed, stand only partly boxed, specimen shots
+132508309   # no flowers, box on an unrelated stem
+2879986     # box on white daisies
+407088450   # box on a sliver, plant is mostly foliage
+476553      # box on a pink flower that is not a spike
+419779415   # field of loosestrife, two small patches boxed
+710083063   # same: whole frame is loosestrife, two spikes boxed
+235922030   # autumn field, plant not identifiable
+463468705   # cut stem on black backdrop
+
+# phragmites
+253615376   # box spans parking lot and water
+47831124    # mown grass, no reed visible
+683869784   # hand holding a leaf among ferns
+94114707    # herbarium sheet
+452637764   # box on a grass verge under trees
+466165965   # box on a snowbank
+440696169   # gloved hand, one leaf
+
+# water_chestnut: the nut is not the plant, harvested piles are not a stand
+134050524   # nut in hand
+208141037   # nut in hand
+302909051   # nut on gravel
+31606633    # nuts in hand
+428608863   # nut in mud
+499037294   # nut in hand
+499037492   # nuts in leaf litter
+500340166   # pile of nuts
+544208770   # nut in hand
+551080963   # nut in debris
+674973719   # nut in hand
+15958173    # dead nuts in debris
+22353219    # canoe full of pulled plants
+419200194   # heap of pulled plants on shore
+550606975   # box on sky and treeline
+66675330    # dead leaves on mud
+666820547   # duckweed, no rosettes
+684880121   # underwater, unreadable
+151663073   # boxes include a loosestrife spike
+674983816   # one rosette among lily pads, box is the whole frame
+
+# yellow_iris
+389657243   # white iris
+389719834   # white iris
+203520229   # box on a reed stand
+726087914   # seed pods on black backdrop
+231416689   # seed pods only
+277936949   # dead leaves
+135147725   # one bud boxed, plant unboxed
+136819995   # one bud boxed, plant unboxed
+26012172    # half the stand boxed
+
+# second pass, after the replacement fetch
+206994751   # water_chestnut: nut on ground
+208878610   # water_chestnut: nut on sand
+247699973   # water_chestnut: nut and a leaf
+377400453   # water_chestnut: nut
+390088681   # water_chestnut: nut in hand
+396977753   # water_chestnut: nut in hand
+434893795   # water_chestnut: nut on gravel
+488276931   # water_chestnut: nut on wood
+499037410   # water_chestnut: nuts in debris
+509745540   # water_chestnut: nuts on a deck
+55588230    # water_chestnut: nuts in hand
+561222869   # water_chestnut: nut on gravel
+561296426   # water_chestnut: nuts on ground
+571661426   # water_chestnut: nuts on concrete
+7273241     # water_chestnut: nut on a stick
+7647735     # water_chestnut: nut on a board
+82061060    # water_chestnut: nut in hand
+244734862   # water_chestnut: red serrated leaves, not a floating rosette
+314288933   # water_chestnut: distant mat, no usable box
+532024705   # water_chestnut: box swallows the reeds
+66673232    # water_chestnut: pulled plants on leaf litter
+700228032   # water_chestnut: one rosette boxed of many
+185862072   # yellow_iris: two tiny flower boxes in a meadow
+186123870   # yellow_iris: box on a white-flowered meadow
+577466802   # yellow_iris: wilted orange flower in hand
