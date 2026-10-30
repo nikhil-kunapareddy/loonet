@@ -1,6 +1,7 @@
 # loonet
 
-Training an object detector to find and count loons in top-down drone footage.
+Training an object detector to find and count loons in top-down drone footage,
+and a second one, vegnet, for the invasive plants that crowd their shoreline.
 
 ## Layout
 
@@ -14,7 +15,9 @@ data/no_dups/          stage 2 + duplicates.csv
 data/quality_check/    stage 3 + rejected.csv
 data/un_annotated/     stage 4 + manifest.csv — annotate these
 data/aubirds_data/     25 AUBIRDSTEST tiles, for reproducing the v0 result
+data/vegnet_raw/       vegnet source photos (iNaturalist) + manifest.csv
 models/aubirds/        v0 weights
+models/vegnet/<ver>/   vegnet weights
 outputs/               detections, counts.csv, mosaics
 references/            Akçay et al. 2020, Animals 10:1207 (CC BY)
 runs/<version>/        config, metrics, notes per version (weights not versioned)
@@ -68,5 +71,30 @@ python src/stitch_tiles.py outputs/ mosaic.jpg          # reassemble tiles
 `count_birds.py` tiles at 1024×600 and scores at 0.8. Flags: `-t/--thresh`,
 `--whole` (no tiling), `--rgb`, `--limit`. Its numbers are **box counts, not bird
 counts** — v0 over-splits, so don't quote them as counts.
+
+## vegnet
+
+A separate detector for four invasive plants, in ground-level photos: purple
+loosestrife, common reed (the introduced *Phragmites*), water chestnut and
+yellow flag iris, one class each. Training needs `requirements-train.txt`.
+
+```bash
+scripts/fetch_vegnet.py         # iNaturalist photos -> data/vegnet_raw
+scripts/autolabel_vegnet.py     # draft boxes -> data/annotated/vegnet_v1
+notebooks/vegnet_v1.ipynb       # split, train, copy best.pt to models/vegnet/v1
+```
+
+The boxes are **drafted, not hand-drawn**. The species comes from the
+observation, which is research grade, so a second observer agreed on it.
+Grounding DINO drafts where the plant is, and the contact sheets in
+`outputs/vegnet_autolabel/` were reviewed by eye. A box is a patch, one
+contiguous stand, not one plant. `data/vegnet_raw/rejected.txt` lists what
+review pruned and why, mostly water chestnut *nuts* rather than the plant.
+
+v1 is 132 images, 33 per species, sized and trained like loonnet_v1. On 28 val
+images it scores mAP50 0.77 and mAP50-95 0.57. Water chestnut scores highest
+(mAP50 0.96) and loosestrife lowest (0.65). The val boxes are drafts too, so
+this measures agreement with the drafts, not with an annotator. Correcting them
+by hand is the v2 step.
 
 MIT — see [LICENSE](LICENSE).

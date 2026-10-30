@@ -1,0 +1,10 @@
+# Model training deps. Kept separate from requirements.txt (the TensorFlow-based
+# data pipeline in scripts/) because torch and tensorflow pull conflicting numpy pins.
+#   uv venv .venv-train --python 3.11
+#   uv pip install --python .venv-train/bin/python -r requirements-train.txt
+ultralytics==8.4.138
+torch==2.14.0
+torchvision==0.29.0
+ipykernel==7.3.0
+# scripts/autolabel_vegnet.py only (Grounding DINO for vegnet draft boxes)
+transformers==4.57.1
