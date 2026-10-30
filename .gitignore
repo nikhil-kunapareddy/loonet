@@ -7,6 +7,9 @@
 # training checkpoints — config, metrics, and notes under runs/ stay versioned
 /runs/*/weights/
 
+# ultralytics label caches, rebuilt from labels/ on first load
+/data/annotated/*/labels.cache
+
 # pipeline stages rebuild from data/raw with scripts/run_pipeline.py, so only the
 # raw archive is versioned. The per-stage CSVs stay: they are the lineage from a
 # final filename back to the raw one, and cannot be recovered from the images.
